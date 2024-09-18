@@ -1,7 +1,7 @@
-# Remove spaces and make all characters uppercase for simplicity
-P = input("Enter plaintext (P): ").replace(" ", "").upper()
-K = input("Enter key (K): ").replace(" ", "").upper()
-C = input("Do you want to Encrypt or Decrypt (E/D)? ").upper()
+# Do not use spaces betwwen word and make all characters uppercase
+P = input("enter upperCase plainText (P): ").replace(" ", "").upper()
+K = input("enter encryption key (K): ").replace(" ", "").upper()
+C = input("What do you want>>Encrypt or Decrypt (E/D)? ").upper()
 
 # Prepare 5x5 matrix
 matrix = []
