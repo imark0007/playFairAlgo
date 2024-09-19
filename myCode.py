@@ -1,13 +1,16 @@
-# Do not use spaces betwwen word and make all characters uppercase
-P = input("enter upperCase plainText (P): ").replace(" ", "").upper()
-K = input("enter encryption key (K): ").replace(" ", "").upper()
-C = input("What do you want>>Encrypt or Decrypt (E/D)? ").upper()
-
-# Prepare 5x5 matrix
+# Playfair cipher encryption and decryption
+# Input key and plaintext from user
+# plaintext ,ciphertext and encryption or decrhyption key
+P = input("Enter plaintext (P): ").replace(" ", "").upper()
+K = input("Enter key (K): ").replace(" ", "").upper()
+C = input("Do you want to Encrypt or Decrypt (E/D)? ").upper()
+# Step 1: Prepare the key (remove duplicates and fill the rest of the alphabet)
+# Note I and J are considered the same
+# Create a 5x5 matrix (Playfair square)
 matrix = []
 alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ"  # J is typically combined with I in Playfair cipher
 
-# Remove duplicates from the key and build the matrix
+# Removes duplicates while preserving order
 used = []
 for char in K:
     if char not in used and char in alphabet:
@@ -22,13 +25,13 @@ for char in alphabet:
 for i in range(0, 25, 5):
     matrix.append(used[i:i + 5])
 
-# Print the matrix (for reference)
+# Print the matrix for error finding
 for row in matrix:
     print(" ".join(row))
 
-# Prepare the plaintext (or ciphertext) for processing by breaking it into digraphs
+# Step 2: Prepare the plaintext
 if C == "E":  # Encrypt
-    # If two letters in the digraph are the same, insert an 'X' between them
+    # If two letters in the code are the same, insert an 'X' between them
     plaintext = ""
     i = 0
     while i < len(P):
@@ -40,8 +43,9 @@ if C == "E":  # Encrypt
             i += 1
     if len(plaintext) % 2 != 0:  # If there's an odd number of characters, append an 'X'
         plaintext += "X"
-
-    # Now encrypt the digraphs
+    # Step 3: Encryption
+    # Now encrypt the text
+    # Find positions of the two characters in the matrix
     ciphertext = ""
     for i in range(0, len(plaintext), 2):
         a, b = plaintext[i], plaintext[i + 1]
@@ -61,7 +65,7 @@ if C == "E":  # Encrypt
             ciphertext += matrix[a_row][b_col] + matrix[b_row][a_col]
 
     print("Ciphertext:", ciphertext)
-
+        # Step 4: Decryption
 elif C == "D":  # Decrypt
     plaintext = ""
     for i in range(0, len(P), 2):
@@ -82,3 +86,4 @@ elif C == "D":  # Decrypt
             plaintext += matrix[a_row][b_col] + matrix[b_row][a_col]
 
     print("Plaintext:", plaintext)
+# Remove padding 'X' from decrypted text in output
